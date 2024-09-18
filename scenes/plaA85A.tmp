@@ -1,0 +1,77 @@
+[gd_scene load_steps=12 format=3 uid="uid://bro2gg1lp1rt8"]
+
+[ext_resource type="Texture2D" uid="uid://bg458l666skki" path="res://assets/sprites/knight.png" id="1_7yxb3"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_25qxj"]
+[ext_resource type="Script" path="res://scripts/state.gd" id="3_dvivm"]
+[ext_resource type="Script" path="res://scripts/idle.gd" id="4_kpiln"]
+[ext_resource type="Script" path="res://scripts/jump.gd" id="5_o4k41"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mo06"]
+atlas = ExtResource("1_7yxb3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e527u"]
+atlas = ExtResource("1_7yxb3")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rc165"]
+atlas = ExtResource("1_7yxb3")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_15rwu"]
+atlas = ExtResource("1_7yxb3")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jaihq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mo06")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e527u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rc165")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_15rwu")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2pj7b"]
+radius = 5.0
+
+[node name="Player" type="CharacterBody2D"]
+z_index = 5
+position = Vector2(1, 1)
+collision_layer = 2
+script = ExtResource("1_25qxj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_jaihq")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_2pj7b")
+
+[node name="state_machine" type="Node" parent="."]
+script = ExtResource("3_dvivm")
+
+[node name="idle" type="Node" parent="state_machine"]
+script = ExtResource("4_kpiln")
+animation_name = null
+move_speed = null
+
+[node name="jump" type="Node" parent="state_machine"]
+script = ExtResource("5_o4k41")
+
+[node name="fall" type="Node" parent="state_machine"]
+
+[node name="move" type="Node" parent="state_machine"]
