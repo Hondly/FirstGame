@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://2ryr113rpoo5"]
+[gd_scene load_steps=11 format=3 uid="uid://2ryr113rpoo5"]
 
 [ext_resource type="Texture2D" uid="uid://gus8w3hqmgmt" path="res://assets/sprites/slime_green.png" id="1_oujgs"]
 [ext_resource type="PackedScene" uid="uid://bdp84s73tv5xy" path="res://scenes/killzone.tscn" id="2_klhlh"]
+[ext_resource type="Script" path="res://scripts/slime_movement_state_machine.gd" id="3_6to88"]
+[ext_resource type="Script" path="res://scenes/patrol.gd" id="4_tndnw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b4yl7"]
 atlas = ExtResource("1_oujgs")
@@ -44,7 +46,7 @@ size = Vector2(10, 12)
 
 [node name="Slime" type="Node2D"]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="slime_movement_animations" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7kp6k")
 autoplay = "default"
 frame = 1
@@ -55,3 +57,11 @@ frame_progress = 0.902771
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
 position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_pp76a")
+
+[node name="slime_movement_state_machine" type="Node" parent="."]
+script = ExtResource("3_6to88")
+
+[node name="patrol" type="Node" parent="slime_movement_state_machine"]
+script = ExtResource("4_tndnw")
+
+[node name="attack" type="Node" parent="slime_movement_state_machine"]
